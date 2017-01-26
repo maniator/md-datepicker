@@ -1,0 +1,27 @@
+{
+  "name": "md-datepicker",
+  "version": "1.0.0",
+  "description": "datepicker for angular",
+  "main": "datepicker/datepicker.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/maniator/md-datepicker.git"
+  },
+  "author": "Neal Lubin",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/maniator/md-datepicker/issues"
+  },
+  "homepage": "https://github.com/maniator/md-datepicker#readme",
+  "dependencies": {
+    "@angular/common": "^2.4.5",
+    "@angular/core": "^2.4.5",
+    "@angular/forms": "^2.4.5",
+    "moment": "^2.17.1",
+    "rxjs": "^5.0.3",
+    "zone.js": "^0.7.6"
+  }
+}
