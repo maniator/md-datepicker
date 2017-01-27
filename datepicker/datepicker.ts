@@ -2,7 +2,7 @@ import {
   AfterContentInit,
   Component,
   ElementRef,
-  // HostListener,
+  HostListener,
   Input,
   Output,
   Optional,
@@ -66,15 +66,31 @@ export class DatepickerComponent implements AfterContentInit, ControlValueAccess
         this.formatValue();
     }
 
-    // @todo finish this
-    onInputChange (value: string) {
+    @HostListener('input', ['$event.target.value'])
+    onInput (value: string) {
         const date = moment(value, this._format);
 
-        if (date.isValid()) {
-            this._value = date.format('YYYY-MM-DD');
-            this._onChange(this.value);
+        // make sure the passed value passes the check for date
+        if (date.format(this._format) === value) {
+            if (date.isValid()) {
+                this._value = date.format('YYYY-MM-DD');
+                this._onChange(this.value);
+                this.change.emit(this.value);
+            }
+        } else {
+            this._control.control.setErrors({
+                message: 'The date is invalid',
+            });
         }
 
+        this._onTouched();
+    }
+
+    onFocus (event) {
+
+    }
+
+    onBlur () {
         this._onTouched();
     }
 
