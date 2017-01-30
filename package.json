@@ -1,5 +1,5 @@
 {
-  "name": "md-datepicker",
+  "name": "ang-datepicker",
   "version": "1.0.0",
   "description": "datepicker for angular",
   "main": "datepicker/datepicker.ts",
