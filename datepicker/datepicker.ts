@@ -7,7 +7,7 @@ import {
   Output,
   Optional,
   EventEmitter,
-  // ViewEncapsulation,
+  ViewEncapsulation,
   NgModule,
   ModuleWithProviders,
 } from '@angular/core';
@@ -18,6 +18,10 @@ import {
 import { CommonModule } from '@angular/common';
 import * as moment from 'moment';
 
+function coerceBooleanProperty(value: any): boolean {
+    return value != null && `${value}` !== 'false';
+}
+
 @Component({
   selector: 'datepicker',
   templateUrl: 'datepicker.html',
@@ -25,19 +29,24 @@ import * as moment from 'moment';
   host: {
     'role': 'datepicker',
     '[id]': 'id',
-    // '[class.md2-datepicker-disabled]': 'disabled',
-    // '[attr.tabindex]': 'disabled ? -1 : tabindex',
-    // '[attr.aria-label]': 'placeholder',
-    // '[attr.aria-required]': 'required.toString()',
-    // '[attr.aria-disabled]': 'disabled.toString()',
+    '[class.datepicker-disabled]': 'disabled',
+    '[attr.tabindex]': 'disabled ? -1 : tabindex',
+    '[attr.aria-label]': 'placeholder',
+    '[attr.aria-required]': 'required.toString()',
+    '[attr.aria-disabled]': 'disabled.toString()',
     '[attr.aria-invalid]': '_control?.invalid || "false"',
   },
-  // encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None
 })
 export class DatepickerComponent implements AfterContentInit, ControlValueAccessor {
     protected _format: string = 'MM/DD/YYYY';
     protected _value: string = '';
     protected _viewValue: string = '';
+    protected _readonly: boolean = false;
+    protected _required: boolean = false;
+    protected _disabled: boolean = false;
+
+    @Input() placeholder?: string = "Please enter date in MM/DD/YYYY format";
 
     @Output() change: EventEmitter<any> = new EventEmitter<any>();
 
@@ -65,6 +74,18 @@ export class DatepickerComponent implements AfterContentInit, ControlValueAccess
 
         this.formatValue();
     }
+
+    @Input()
+    get readonly(): boolean { return this._readonly; }
+    set readonly(value) { this._readonly = coerceBooleanProperty(value); }
+
+    @Input()
+    get required(): boolean { return this._required; }
+    set required(value) { this._required = coerceBooleanProperty(value); }
+
+    @Input()
+    get disabled(): boolean { return this._disabled; }
+    set disabled(value) { this._disabled = coerceBooleanProperty(value); }
 
     @HostListener('input', ['$event.target.value'])
     onInput (value: string) {
